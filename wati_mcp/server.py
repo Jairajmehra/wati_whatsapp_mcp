@@ -90,11 +90,6 @@ def create_server() -> FastMCP:
     mcp = FastMCP("WATI WhatsApp MCP Server")
     
     @mcp.tool()
-    def get_weather(city: str) -> str:
-        """Get the weather data for a given city (demo function)."""
-        return f"The weather in {city} is sunny."
-    
-    @mcp.tool()
     def get_messages(
         whatsapp_number: int, 
         page_size: int = 20, 
@@ -455,12 +450,6 @@ def create_server() -> FastMCP:
                 )
         except Exception as e:
             return {"error": f"Failed to read CSV file: {str(e)}"}
-    
-    # Add a dynamic greeting resource
-    @mcp.resource("greeting://{name}")
-    def get_greeting(name: str) -> str:
-        """Get a personalized greeting."""
-        return f"Hello, {name}!"
     
     return mcp
 
