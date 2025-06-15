@@ -14,58 +14,76 @@ A [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that p
 
 ## Installation
 
-Install the package from PyPI:
+### Step 1: Install the Package
 
+**Recommended:** Using pipx (best for CLI tools)
 ```bash
+pipx install wati-mcp-server
+```
+
+**Alternative:** Using pip with virtual environment
+```bash
+python3 -m venv mcp-env
+source mcp-env/bin/activate
 pip install wati-mcp-server
 ```
 
-## Quick Start
+### Step 2: Find Installation Path
 
-### 1. Set up Environment Variables
-
-Create a `.env` file in your project directory:
-
-```env
-API_ENDPOINT=https://live-mt-server.wati.io
-ACCESS_TOKEN=your_wati_access_token_here
-```
-
-### 2. Run the Server
-
-You can run the server in multiple ways:
-
-#### Option A: Command Line
+Find where the command was installed:
 ```bash
-wati-mcp-server
+which wati-mcp-server
 ```
 
-#### Option B: Python Module
-```bash
-python -m wati_mcp.server
-```
+This will show a path like `/Users/username/.local/bin/wati-mcp-server` (pipx) or `/path/to/mcp-env/bin/wati-mcp-server` (venv).
 
-#### Option C: In Your Code
-```python
-from wati_mcp.server import create_server
+### Step 3: Configure Your MCP Client
 
-server = create_server()
-server.run(transport="stdio")
-```
+**For Claude Desktop:** Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows)
 
-### 3. Configure Your MCP Client
+**For Cursor:** Edit your Cursor MCP configuration file
 
-Add the server to your MCP client configuration (e.g., Claude Desktop):
+Add this configuration:
 
 ```json
 {
   "mcpServers": {
     "wati": {
-      "command": "wati-mcp-server"
+      "command": "/full/path/from/which/command",
+      "env": {
+        "API_ENDPOINT": "https://live-mt-server.wati.io/YOUR_TENANT_ID",
+        "ACCESS_TOKEN": "Bearer YOUR_WATI_ACCESS_TOKEN"
+      }
     }
   }
 }
 ```
+
+**Or if pipx added it to your PATH, you can use:**
+```json
+{
+  "mcpServers": {
+    "wati": {
+      "command": "wati-mcp-server",
+      "env": {
+        "API_ENDPOINT": "https://live-mt-server.wati.io/YOUR_TENANT_ID",
+        "ACCESS_TOKEN": "Bearer YOUR_WATI_ACCESS_TOKEN"
+      }
+    }
+  }
+}
+```
+
+### Step 4: Get Your WATI Credentials
+
+1. Sign up for a [WATI account](https://www.wati.io/)
+2. Get your WhatsApp Business API approved
+3. Find your API endpoint and access token in the WATI dashboard
+4. Replace `YOUR_TENANT_ID` and `YOUR_WATI_ACCESS_TOKEN` in the config above
+
+### Step 5: Restart Your MCP Client
+
+After updating the configuration, completely restart Claude Desktop or Cursor.
 
 ## Available Tools
 
@@ -147,21 +165,14 @@ send_template_messages(
 | `API_ENDPOINT` | Your WATI API endpoint URL | Yes |
 | `ACCESS_TOKEN` | Your WATI API access token | Yes |
 
-### Getting WATI Credentials
-
-1. Sign up for a [WATI account](https://www.wati.io/)
-2. Get your WhatsApp Business API approved
-3. Find your API endpoint and access token in the WATI dashboard
-4. Add them to your `.env` file
-
 ## Development
 
 ### Setting up for Development
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/wati-mcp-server.git
-cd wati-mcp-server
+git clone https://github.com/Jairajmehra/wati_whatsapp_mcp.git
+cd wati_whatsapp_mcp
 
 # Install in development mode
 pip install -e ".[dev]"
@@ -236,8 +247,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- **Documentation**: [GitHub Repository](https://github.com/yourusername/wati-mcp-server)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/wati-mcp-server/issues)
+- **Documentation**: [GitHub Repository](https://github.com/Jairajmehra/wati_whatsapp_mcp)
+- **Issues**: [GitHub Issues](https://github.com/Jairajmehra/wati_whatsapp_mcp/issues)
 - **WATI Documentation**: [WATI API Docs](https://www.wati.io/developers)
 
 ## Changelog

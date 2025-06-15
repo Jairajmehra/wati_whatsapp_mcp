@@ -6,7 +6,7 @@ allowing AI assistants to send messages, manage contacts, and retrieve conversat
 """
 
 __version__ = "0.1.0"
-__author__ = "Your Name"
+__author__ = "Jairaj Mehra"
 __description__ = "MCP Server for WATI WhatsApp Business API"
 
 from .server import create_server
